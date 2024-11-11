@@ -18,7 +18,7 @@ function App() {
     "logado": false
   });
 
-  if (!usuario.logado) {
+  if (usuario.logado) {
     return (
       <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
         <TelaLogin />
