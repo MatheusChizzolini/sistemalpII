@@ -103,7 +103,7 @@ const produtoReducer = createSlice({
     extraReducers: (builder) => {
         builder.addCase(buscarProdutos.pending, (state, action) => {
             state.estado = ESTADO.PENDENTE
-            state.mensagem = "Processando requisição (buscando produtos)"
+            state.mensagem = "Processando requisição"
         })
             .addCase(buscarProdutos.fulfilled, (state, action) => { // BUSCAR
                 if (action.payload.status) {
