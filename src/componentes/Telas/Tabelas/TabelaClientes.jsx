@@ -1,5 +1,6 @@
 import { Button, Container, Table } from "react-bootstrap";
-
+import { useSelector, useDispatch } from "react-redux";
+//import { buscarClientes, excluirCliente } from ""
 export default function TabelaClientes(props) {
     function editarCliente(cliente) {
         props.setModoEdicao(true);
