@@ -59,11 +59,13 @@ export default function TabelaProdutos(props) {
                             <th>Imagem</th>
                             <th>Validade</th>
                             <th>Categoria</th>
+                            <th>Fornecedor</th>
                             <th>Ações</th>
                         </thead>
                         <tbody>
                             {
                                 listaDeProdutos?.map((produto) => {
+                                    console.log(produto);
                                     return (
                                         <tr>
                                             <td>{produto.codigo}</td>
@@ -76,7 +78,8 @@ export default function TabelaProdutos(props) {
                                                 "height": "40px"
                                             }} src={produto.urlImagem} alt="foto do produto" /></td>
                                             <td>{new Date(produto.dataValidade).toLocaleDateString()}</td>
-                                            <td>{produto.categoria.descricao}</td>
+                                            <td>{produto.categoria?.descricao}</td>
+                                            <td>{produto.fornecedor?.nome}</td>
                                             <td>
                                                 <Button onClick={() => {
                                                     editarProduto(produto);

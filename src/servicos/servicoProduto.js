@@ -1,6 +1,7 @@
 const urlBase = 'https://bcc-backend-lp-2-five.vercel.app/produtos';
 
 export async function gravarProduto(produto) {
+    console.log(produto);
     const resposta = await fetch(urlBase, {
         'method': "POST",
         'headers': {
@@ -13,6 +14,7 @@ export async function gravarProduto(produto) {
 }
 
 export async function alterarProduto(produto) {
+    console.log(produto);
     const resposta = await fetch(urlBase + "/" + produto.codigo, {
         "method": "PUT",
         "headers": {

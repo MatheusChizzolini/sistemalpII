@@ -18,11 +18,10 @@ export default function TelaCadastroProduto(props) {
         qtdEstoque:0,
         urlImagem:"",
         dataValidade:"",
-        categoria: {}
-
+        categoria: {},
+        fornecedor: {}
     });
 
-  
     return (
         <div>
             <Pagina>

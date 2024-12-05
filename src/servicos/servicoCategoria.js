@@ -1,4 +1,4 @@
-const urlBase = 'https://bcc-backend-lp-2-five.vercel.app/categorias';
+const urlBase = 'https://bcc-backend-lp-2-five.vercel.app/categorias' ;
 
 export async function gravarCategoria(categoria){
     const resposta = await fetch(urlBase,{
@@ -13,7 +13,7 @@ export async function gravarCategoria(categoria){
 }
 
 export async function alterarCategoria(categoria){
-    const resposta = await fetch(urlBase,{
+    const resposta = await fetch(urlBase + "/" + categoria.codigo,{
         'method':"PUT",
         'headers': { 
             'Content-Type':"application/json"
