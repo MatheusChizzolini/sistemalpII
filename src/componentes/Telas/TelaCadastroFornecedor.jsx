@@ -28,18 +28,16 @@ export default function TelaCadastroFornecedor(props) {
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaFornecedor listaFornecedores = {listaFornecedores}
-                        setListaFornecedores = {setListaFornecedores}
-                        setExibirTabela = {setExibirTabela}
-                        setModoEdicao = {setModoEdicao}
-                        setFornecedorSel = {setFornecedorSel}/> : 
-                        <FormCadFornecedor listaFornecedores = {listaFornecedores}
-                        setListaFornecedores = {setListaFornecedores}
-                        setExibirTabela = {setExibirTabela}
-                        fornecedorSel = {fornecedorSel}
-                        setFornecedorSel = {setFornecedorSel}
-                        modoEdicao = {modoEdicao}
-                        setModoEdicao = {setModoEdicao}/>
+                        <TabelaFornecedor
+                            setExibirTabela={setExibirTabela}
+                            setModoEdicao={setModoEdicao}
+                            setFornecedorSel={setFornecedorSel} /> :
+                        <FormCadFornecedor
+                            setExibirTabela={setExibirTabela}
+                            fornecedorSel={fornecedorSel}
+                            setFornecedorSel={setFornecedorSel}
+                            modoEdicao={modoEdicao}
+                            setModoEdicao={setModoEdicao} />
                 }
             </Pagina>
         </div>
