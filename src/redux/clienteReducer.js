@@ -1,8 +1,7 @@
+import { consultarCliente, excluirCliente as excluir, gravarCliente, alterarCliente } from "../servicos/servicoCliente";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import ESTADO from "./estados";
-import { consultarCliente, excluirCliente as excluir, gravarCliente, alterarCliente } from "../servicos/servicoCliente";
-
 export const buscarClientes = createAsyncThunk('buscarClientes', async () => {
     const resultado = await consultarCliente();
 
@@ -31,7 +30,7 @@ export const buscarClientes = createAsyncThunk('buscarClientes', async () => {
 });
 
 export const excluirCliente = createAsyncThunk('excluirCliente', async (cliente) => {
-    const resultado = await excluirCliente(cliente);
+    const resultado = await excluir(cliente);
     try {
         return {
             "status": resultado.status,
@@ -94,7 +93,7 @@ const clienteReducer = createSlice({
     name: 'cliente',
     initialState: {
         estado: ESTADO.OCIOSO,
-        mensagem: "",
+        mensagem:"",
         listaClientes: []
     },
     reducers: {},
@@ -136,7 +135,7 @@ const clienteReducer = createSlice({
             })
             .addCase(excluirCliente.rejected, (state, action) => {
                 state.estado = ESTADO.ERRO;
-                state.mensagem = action.payload?.mensagem || "Erro ao excluir cliente.";
+                state.mensagem = action.payload.mensagem;
             })
         .addCase(incluirCliente.pending, (state, action) => {
                 state.estado = ESTADO.PENDENTE;
@@ -157,7 +156,11 @@ const clienteReducer = createSlice({
             state.estado = ESTADO.ERRO;
             state.mensagem = action.payload.mensagem;
         })
-        .addCase(atualizarCliente.pending, (state, action) => {
+        .addCase(atualizarCliente.pending, (state, action) => { // ATUALIZAR
+            state.estado = ESTADO.PENDENTE;
+            state.mensagem = "Processando a requisição";
+        })
+        .addCase(atualizarCliente.fulfilled, (state, action) => {
             if (action.payload.status) {
                 state.estado = ESTADO.OCIOSO;
                 state.mensagem = action.payload.mensagem;
