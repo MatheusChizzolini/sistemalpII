@@ -1,41 +1,40 @@
 import { Alert, Button, Spinner, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { consultarCategoria } from '../../../servicos/servicoCategoria';
 import { useSelector, useDispatch } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 import { incluirProduto, atualizarProduto } from '../../../redux/produtoReducer';
 import ESTADO from '../../../redux/estados'
+import { buscarFornecedor } from '../../../redux/fornecedorReducer';
+import { buscarCategoria } from '../../../redux/categoriaReducer';
 
 export default function FormCadProdutos(props) {
     const [produto, setProduto] = useState(props.produtoSelecionado);
     const [formValidado, setFormValidado] = useState(false);
-    const [categorias, setCategorias] = useState([]);
-    const [temCategorias, setTemCategorias] = useState(false);
     const { estado, mensagem, listaDeProdutos } = useSelector((state) => state.produto);
+    const { listaCategorias } = useSelector((state) => state.categoria);
+    const { listaFornecedores } = useSelector((state) => state.fornecedor);
     const [mensagemExibida, setMensagemExibida] = useState("");
     const despachante = useDispatch();
 
     useEffect(() => {
-        consultarCategoria().then((resultado) => {
-            if (Array.isArray(resultado)) {
-                setCategorias(resultado);
-                setTemCategorias(true);
-            }
-            else {
-                toast.error("Não foi possível carregar as categorias");
-            }
-        }).catch((erro) => {
-            setTemCategorias(false);
-            toast.error("Não foi possível carregar as categorias");
-        });
-
-    }, []); //didMount
+        despachante(buscarCategoria());
+        despachante(buscarFornecedor());
+    }, []);
 
     function selecionarCategoria(evento) {
         setProduto({
             ...produto,
             categoria: {
                 codigo: evento.currentTarget.value
+            }
+        });
+    }
+
+    function selecionarFornecedor(evento) {
+        setProduto({
+            ...produto,
+            fornecedor: {
+                id: evento.currentTarget.value
             }
         });
     }
@@ -233,13 +232,17 @@ export default function FormCadProdutos(props) {
                             />
                             <Form.Control.Feedback type="invalid">Por favor, informe a data de validade do produto!</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md={7}>
+                        <Form.Group as={Col} md={3}>
                             <Form.Label>Categoria:</Form.Label>
                             <Form.Select id='categoria'
                                 name='categoria'
+                                value={produto.categoria.codigo}
                                 onChange={selecionarCategoria}>
-                                {// criar em tempo de execução as categorias existentes no banco de dados
-                                    categorias.map((categoria) => {
+                                <option value="">
+                                    Selecionar
+                                </option>
+                                {
+                                    listaCategorias.map((categoria) => {
                                         return <option value={categoria.codigo}>
                                             {categoria.descricao}
                                         </option>
@@ -248,16 +251,29 @@ export default function FormCadProdutos(props) {
 
                             </Form.Select>
                         </Form.Group>
-                        <Form.Group as={Col} md={1}>
-                            {
-                                !temCategorias ? <Spinner className='mt-4' animation="border" variant="success" />
-                                    : ""
-                            }
+                        <Form.Group as={Col} md={4}>
+                            <Form.Label>Fornecedor:</Form.Label>
+                            <Form.Select id='fornecedor'
+                                name='fornecedor'
+                                value={produto.fornecedor.id}
+                                onChange={selecionarFornecedor}>
+                                <option value="">
+                                    Selecionar
+                                </option>
+                                {
+                                    listaFornecedores.map((fornecedor) => {
+                                        return <option value={fornecedor.id}>
+                                            {fornecedor.nome}
+                                        </option>
+                                    })
+                                }
+
+                            </Form.Select>
                         </Form.Group>
                     </Row>
                     <Row className='mt-2 mb-2'>
                         <Col md={1}>
-                            <Button type="submit" disabled={!temCategorias}>{props.modoEdicao ? "Alterar" : "Confirmar"}</Button>
+                            <Button type="submit">{props.modoEdicao ? "Alterar" : "Confirmar"}</Button>
                         </Col>
                         <Col md={{ offset: 1 }}>
                             <Button onClick={() => {

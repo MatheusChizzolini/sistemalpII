@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { fornecedores } from "../../dados/mockFornecedores";
 import Pagina from "../layouts/Pagina";
 import { Alert } from "react-bootstrap";
 import TabelaFornecedor from "./Tabelas/TabelaFornecedor";
@@ -7,7 +6,6 @@ import FormCadFornecedor from "./Formularios/FormCadFornecedor";
 
 export default function TelaCadastroFornecedor(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaFornecedores, setListaFornecedores] = useState(fornecedores);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [fornecedorSel, setFornecedorSel] = useState({
         id: 0,
