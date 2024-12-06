@@ -77,128 +77,107 @@ export default function FormCadUsuario(props) {
     } else if (estado === ESTADO.OCIOSO) {
         return (
             <div>
+                <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
+                    <Row className="mb-4">
+                        <Form.Group as={Col} md="4">
+                            <Form.Label>Nome</Form.Label>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    id="nome"
+                                    name="nome"
+                                    value={usuario.nome}
+                                    disabled={props.modoEdicao}
+                                    onChange={manipularMudanca}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    Nome inválido.
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-4">
+                        <Form.Group as={Col} md="4">
+                            <Form.Label>Email</Form.Label>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    aria-describedby="email"
+                                    value={usuario.email}
+                                    onChange={manipularMudanca}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor, informe o Email!
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group as={Col} md="4">
+                            <Form.Label>Senha</Form.Label>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="password"
+                                    id="senha"
+                                    name="senha"
+                                    aria-describedby="senha"
+                                    value={usuario.senha}
+                                    onChange={manipularMudanca}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor, informe a sua senha!
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group as={Col} md="8">
+                            <Form.Label>Privilégio</Form.Label>
+                            <Form.Select
+                                required
+                                id="privilegio"
+                                name="privilegio"
+                                value={usuario.privilegio}
+                                onChange={manipularMudanca}
+                            >
+                                <option value="">Selecione uma opção</option>
+                                <option value="admin">Administrador</option>
+                                <option value="usuario">Usuário</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                Por favor, selecione uma opção.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Row>
+
+                    <Row className='mt-2 mb-2'>
+                        <Col md={1}>
+                            <Button type="submit">{props.modoEdicao ? "Alterar" : "Confirmar"}</Button>
+                        </Col>
+                        <Col md={{ offset: 1 }}>
+                            <Button onClick={() => {
+                                props.setExibirTabela(true);
+                                props.setModoEdicao(false);
+                                props.setUsuarioSelecionado({
+                                    nome: "",
+                                    email: "",
+                                    senha: "",
+                                    senhaConfirmada: "",
+                                    privilegio: ""
+                                });
+                            }}>
+                                Voltar
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
                 {
                     mensagemExibida ? <Alert variant="sucess">{mensagem}</Alert> : ""
                 }
             </div>
         );
     }
-
-    return (
-        <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-            <Row className="mb-4">
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Código</Form.Label>
-                    <InputGroup hasValidation>
-                        <Form.Control
-                            required
-                            type="text"
-                            id="codigo"
-                            name="codigo"
-                            value={usuario.codigo}
-                            disabled={props.modoEdicao}
-                            onChange={manipularMudanca}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            Código inválido.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-
-            <Row className="mb-4">
-                <Form.Group as={Col} md="12">
-                    <Form.Label>Nome</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        value={usuario.nome}
-                        onChange={manipularMudanca}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Por favor, informe o nome completo.
-                    </Form.Control.Feedback>
-                </Form.Group>
-            </Row>
-
-            <Row className="mb-4">
-                <Form.Group as={Col} md="4">
-                    <Form.Label>RG</Form.Label>
-                    <InputGroup hasValidation>
-                        <Form.Control
-                            type="text"
-                            id="rg"
-                            name="rg"
-                            aria-describedby="rg"
-                            value={usuario.rg}
-                            onChange={manipularMudanca}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor, informe o RG!
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Função</Form.Label>
-                    <InputGroup hasValidation>
-                        <Form.Control
-                            type="text"
-                            id="funcao"
-                            name="funcao"
-                            aria-describedby="funcao"
-                            value={usuario.funcao}
-                            onChange={manipularMudanca}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor, informe a sua função!
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Senha</Form.Label>
-                    <InputGroup hasValidation>
-                        <Form.Control
-                            type="password"
-                            id="senha"
-                            name="senha"
-                            aria-describedby="senha"
-                            value={usuario.senha}
-                            onChange={manipularMudanca}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor, informe a sua senha!
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-
-            <Row className='mt-2 mb-2'>
-                <Col md={1}>
-                    <Button type="submit">{props.modoEdicao ? "Alterar" : "Confirmar"}</Button>
-                </Col>
-                <Col md={{ offset: 1 }}>
-                    <Button onClick={() => {
-                        props.setExibirTabela(true);
-                        props.setModoEdicao(false);
-                        props.setUsuarioSelecionado({
-                            nome: "",
-                            email: "",
-                            senha: "",
-                            senhaConfirmada: "",
-                            privilegio: ""
-                        });
-                    }}>
-                        Voltar
-                    </Button>
-                </Col>
-            </Row>
-        </Form>
-    );
 }

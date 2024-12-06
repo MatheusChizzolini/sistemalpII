@@ -27,20 +27,19 @@ export const incluirUsuario = createAsyncThunk('incluirUsuario', async (usuario)
 });
 
 export const buscarUsuario = createAsyncThunk('buscarUsuario', async () => {
-    const resultado = await consultarUsuario();
-
     try {
+        const resultado = await consultarUsuario();
         if (Array.isArray(resultado)) {
             return {
                 "status": true,
-                "mensagem": "Usuarios recuperados com sucesso.",
+                "mensagem": "Usuarios recuperados com sucesso",
                 "listaUsuarios": resultado
             }
         }
         else {
             return {
                 "status": false,
-                "mensagem": "Erro ao recuperar usuarios do backend.",
+                "mensagem": "Erro ao recuperar os usuarios do backend.",
                 "listaUsuarios": []
             }
         }
@@ -117,7 +116,7 @@ const usuarioReducer = createSlice({
                 state.estado = ESTADO.ERRO;
                 state.mensagem = action.payload.mensagem;
             })
-            .addCase(buscarUsuario.pending, (state, action) => { // BUSCAR
+            .addCase(buscarUsuario.pending, (state) => { // BUSCAR
                 state.estado = ESTADO.PENDENTE
                 state.mensagem = "Processando requisição"
             })

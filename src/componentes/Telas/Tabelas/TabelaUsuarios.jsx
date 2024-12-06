@@ -20,7 +20,7 @@ export default function TabelaUsuarios(props) {
 
     function apagarUsuario(usuario) {
         if (window.confirm("Deseja realmente excluir o usuário " + usuario.nome)) {
-            despachante(excluirUsuario());
+            despachante(excluirUsuario(usuario));
         }
     }
 
