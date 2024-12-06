@@ -11,7 +11,7 @@ import { atualizarUsuario, incluirUsuario } from "../../../redux/usuarioReducer"
 export default function FormCadUsuario(props) {
     const [usuario, setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado, setFormValidado] = useState(false);
-    const { estado, mensagem, listaUsuarios } = useSelector((state) => state.fornecedor);
+    const { estado, mensagem } = useSelector((state) => state.usuario);
     const [mensagemExibida, setMensagemExibida] = useState("");
     const despachante = useDispatch();
 
@@ -107,6 +107,7 @@ export default function FormCadUsuario(props) {
                                     name="email"
                                     aria-describedby="email"
                                     value={usuario.email}
+                                    disabled={props.modoEdicao}
                                     onChange={manipularMudanca}
                                     required
                                 />
@@ -116,7 +117,7 @@ export default function FormCadUsuario(props) {
                             </InputGroup>
                         </Form.Group>
 
-                        <Form.Group as={Col} md="4">
+                        <Form.Group as={Col} md="2">
                             <Form.Label>Senha</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
@@ -133,7 +134,23 @@ export default function FormCadUsuario(props) {
                                 </Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
-
+                        <Form.Group as={Col} md="2">
+                            <Form.Label>Confirmar Senha</Form.Label>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="password"
+                                    id="senhaConfirmada"
+                                    name="senhaConfirmada"
+                                    aria-describedby="senhaConfirmada"
+                                    value={usuario.senhaConfirmada}
+                                    onChange={manipularMudanca}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor, informe a sua senha de confirmação!
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
                         <Form.Group as={Col} md="8">
                             <Form.Label>Privilégio</Form.Label>
                             <Form.Select
