@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import ESTADO from "../../../redux/estados";
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Spinner } from "react-bootstrap";
-import { incluirCliente, atualizarCliente} from "../../../redux/clienteReducer"
+import { incluirCliente, atualizarCliente} from "../../../redux/clienteReducer";
 export default function FormCadCliente(props) {
     const [cliente, setCliente] = useState(props.clienteSelecionado);
     const [formValidado, setFormValidado] = useState(false);

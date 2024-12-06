@@ -7,7 +7,7 @@ import categoriaReducer from "./categoriaReducer";
 const store = configureStore({
     reducer: {
         'produto': produtoReducer,
-        'cliente': clienteReducer
+        'cliente': clienteReducer,
         'fornecedor': fornecedorReducer,
         'categoria': categoriaReducer
     }
