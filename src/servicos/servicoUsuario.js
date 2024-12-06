@@ -39,3 +39,17 @@ export async function consultarUsuario() {
     const resultado = await resposta.json();
     return resultado;
 }
+
+export async function login(nomeUsuario, senhaUsuario) {
+    const resposta = await fetch(urlBase + "/login", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome: nomeUsuario,
+            senha: senhaUsuario
+        })
+    });
+    return await resposta.json();
+}

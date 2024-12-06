@@ -1,26 +1,34 @@
 import { Container, Form, Button } from "react-bootstrap";
 import { useContext, useRef } from "react";
 import { ContextoUsuario } from "../../App";
+import { login } from "../../servicos/servicoUsuario";
 
 export default function TelaLogin() {
     const nomeUsuario = useRef();
     const senha = useRef();
     const { usuario, setUsuario } = useContext(ContextoUsuario);
-    function manipularSubmissao(evento) {
-        const usuarioDigitado = nomeUsuario.current.value;
-        const senhaDigitada = senha.current.value;
-        if (usuarioDigitado === 'admin' && senhaDigitada === 'admin') {
-            setUsuario({
-                "usuario": usuarioDigitado,
-                "logado": true
-            })
-        }
 
+    function manipularSubmissao(evento) {
+        const userInput = nomeUsuario.current.value;
+        const passwordInput = senha.current.value;
+        login(userInput, passwordInput)
+            .then((resposta) => {
+                if (resposta.status) {
+                    setUsuario({
+                        "usuario": userInput,
+                        "logado": true,
+                        "privilegio": resposta.privilegio
+                    });
+                }
+                else {
+                    window.alert(resposta.mensagem);
+                }
+            });
         evento.preventDefault();
         evento.stopPropagation();
     }
 
-    
+
     return (
         <Container className="w-25 border p-2">
             <Form onSubmit={manipularSubmissao}>

@@ -17,10 +17,11 @@ export const ContextoUsuario = createContext();
 function App() {
   const [usuario, setUsuario] = useState({
     "usuario": "",
-    "logado": false
+    "logado": false,
+    "privilegio": ""
   });
 
-  if (usuario.logado) {
+  if (!usuario.logado) {
     return (
       <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
         <TelaLogin />
@@ -40,7 +41,6 @@ function App() {
               <Route path="/cliente" element={<TelaCadastroCliente />} />
               <Route path="/categoria" element={<TelaCadastroCategoria />} />
               <Route path="/fornecedor" element={<TelaCadastroFornecedor />} />
-              <Route path="/entregador" element={<TelaCadastroEntregador />} />
               <Route path="/usuario" element={<TelaCadastroUsuario />} />
               <Route path="/" element={<TelaMenu />} />
               <Route path="*" element={<Tela404 />} />

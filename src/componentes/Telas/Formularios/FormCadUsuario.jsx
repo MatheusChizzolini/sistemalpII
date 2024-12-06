@@ -107,7 +107,6 @@ export default function FormCadUsuario(props) {
                                     name="email"
                                     aria-describedby="email"
                                     value={usuario.email}
-                                    disabled={props.modoEdicao}
                                     onChange={manipularMudanca}
                                     required
                                 />
