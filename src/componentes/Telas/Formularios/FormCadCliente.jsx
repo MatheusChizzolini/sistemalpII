@@ -175,7 +175,17 @@ export default function FormCadCliente(props) {
                             <Button type="submit">{props.modoEdicao ? "Alterar" : "Confirmar"}</Button>
                         </Col>
                         <Col md={{ offset: 1 }}>
-                            <Button onClick={() => props.setExibirTabela(true)}>
+                            <Button onClick={() => {
+                                props.setExibirTabela(true);
+                                props.setModoEdicao(false);
+                                props.setClienteSelecionado({
+                                    codigo: 0,
+                                    nome:"",
+                                    cpf:"",
+                                    endereco:"",
+                                    dataNascimento: ""
+                                });
+                            }}>
                                 Voltar
                             </Button>
                         </Col>

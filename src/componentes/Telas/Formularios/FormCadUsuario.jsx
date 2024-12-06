@@ -1,66 +1,87 @@
-import { useState, useEffect } from "react";
-import { Button } from 'react-bootstrap';
+import { useState } from "react";
+import { Button, Alert, Spinner } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
+import ESTADO from "../../../redux/estados";
+import { useDispatch, useSelector } from "react-redux";
+import { atualizarUsuario, incluirUsuario } from "../../../redux/usuarioReducer";
 
 export default function FormCadUsuario(props) {
-    const [usuario, setUsuario] = useState(
-        props.usuarioSelecionado || {
-            codigo: 0,
-            nome: "",
-            rg: "",
-            funcao: "",
-            senha: ""
-        }
-    );
+    const [usuario, setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado, setFormValidado] = useState(false);
-
-    useEffect(() => {
-        setUsuario(props.usuarioSelecionado || {
-            codigo: 0,
-            nome: "",
-            rg: "",
-            funcao: "",
-            senha: ""
-        });
-    }, [props.usuarioSelecionado]);
+    const { estado, mensagem, listaUsuarios } = useSelector((state) => state.fornecedor);
+    const [mensagemExibida, setMensagemExibida] = useState("");
+    const despachante = useDispatch();
 
     function manipularSubmissao(evento) {
-        evento.preventDefault();
-        evento.stopPropagation();
-
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                // Cadastrar o usuário
-                props.setListaUsuarios([...props.listaUsuarios, usuario]);
-            } else {
-                // Atualizar o usuario existente
-                props.setListaUsuarios(props.listaUsuarios.map((item) =>
-                    item.codigo !== usuario.codigo ? item : usuario
-                ));
-                // Voltar para o modo de inclusão
+                despachante(incluirUsuario(usuario));
+                setMensagemExibida(mensagem);
+                setMensagemExibida("");
+                setUsuario({
+                    nome: "",
+                    email: "",
+                    senha: "",
+                    senhaConfirmada: "",
+                    privilegio: ""
+                });
+                props.setExibirTabela(true);
+            }
+            else {
+                despachante(atualizarUsuario(usuario));
+                setMensagemExibida(mensagem);
                 props.setModoEdicao(false);
                 props.setUsuarioSelecionado({
-                    codigo: 0,
                     nome: "",
-                    rg: "",
-                    funcao: "",
-                    senha: ""
+                    email: "",
+                    senha: "",
+                    senhaConfirmada: "",
+                    privilegio: ""
                 });
+                props.setExibirTabela(true);
             }
-            props.setExibirTabela(true);
-        } else {
+        }
+        else {
             setFormValidado(true);
         }
+        evento.preventDefault();
+        evento.stopPropagation();
     }
 
     function manipularMudanca(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
         setUsuario({ ...usuario, [elemento]: valor });
+    }
+
+    if (estado === ESTADO.PENDENTE) {
+        return (
+            <div>
+                <Spinner animation="border" role="status"></Spinner>
+                <Alert variant="primary">{mensagem}</Alert>
+            </div>
+        );
+    } else if (estado === ESTADO.ERRO) {
+        return (
+            <div>
+                <Alert variant="danger">{mensagem}</Alert>
+                <Button onClick={() => {
+                    props.setExibirTabela(true);
+                }}>Voltar</Button>
+            </div>
+        );
+    } else if (estado === ESTADO.OCIOSO) {
+        return (
+            <div>
+                {
+                    mensagemExibida ? <Alert variant="sucess">{mensagem}</Alert> : ""
+                }
+            </div>
+        );
     }
 
     return (
@@ -165,13 +186,14 @@ export default function FormCadUsuario(props) {
                 <Col md={{ offset: 1 }}>
                     <Button onClick={() => {
                         props.setExibirTabela(true);
+                        props.setModoEdicao(false);
                         props.setUsuarioSelecionado({
-                            codigo: 0,
                             nome: "",
-                            rg: "",
-                            funcao: "",
-                            senha: ""
-                        })
+                            email: "",
+                            senha: "",
+                            senhaConfirmada: "",
+                            privilegio: ""
+                        });
                     }}>
                         Voltar
                     </Button>
@@ -179,5 +201,4 @@ export default function FormCadUsuario(props) {
             </Row>
         </Form>
     );
-
 }

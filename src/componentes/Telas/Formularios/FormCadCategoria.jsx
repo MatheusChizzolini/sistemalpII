@@ -108,6 +108,11 @@ export default function FormCadCategoria(props) {
                         <Col md={{ offset: 1 }}>
                             <Button onClick={() => {
                                 props.setExibirTabela(true);
+                                props.setModoEdicao(false);
+                                props.setCategoriaSel({
+                                    codigo: 0,
+                                    descricao: ""
+                                });
                             }}>Voltar</Button>
                         </Col>
                     </Row>

@@ -3,13 +3,15 @@ import produtoReducer from "./produtoReducer";
 import clienteReducer from "./clienteReducer";
 import fornecedorReducer from "./fornecedorReducer";
 import categoriaReducer from "./categoriaReducer";
+import usuarioReducer from "./usuarioReducer"
 
 const store = configureStore({
     reducer: {
         'produto': produtoReducer,
-        'cliente': clienteReducer
+        'cliente': clienteReducer,
         'fornecedor': fornecedorReducer,
-        'categoria': categoriaReducer
+        'categoria': categoriaReducer,
+        'usuario': usuarioReducer
     }
 });
 

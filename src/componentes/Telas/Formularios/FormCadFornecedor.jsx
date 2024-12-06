@@ -168,6 +168,15 @@ export default function FormCadFornecedor(props) {
                         <Col md={{ offset: 1 }}>
                             <Button onClick={() => {
                                 props.setExibirTabela(true);
+                                props.setModoEdicao(false);
+                                props.setFornecedorSel({
+                                    id: 0,
+                                    nome: "",
+                                    cnpj: "",
+                                    cep: "",
+                                    telefone: "",
+                                    email: ""
+                                });
                             }}>Voltar</Button>
                         </Col>
                     </Row>
